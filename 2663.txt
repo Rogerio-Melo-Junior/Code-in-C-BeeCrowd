@@ -1,0 +1,45 @@
+#include <stdio.h>
+#define max 1002
+
+void merge(int *v,int ini,int m, int fim){
+    int k=0,c1=ini,c2=m+1;
+    int aux[max];
+    while(c1<=m && c2<=fim){
+        if(v[c1]>v[c2])
+            aux[k++] = v[c1++];
+        else
+            aux[k++] = v[c2++];
+    }
+    while(c1<=m)
+            aux[k++] = v[c1++];
+    while(c2<=fim)
+            aux[k++] = v[c2++];
+    for(k=ini;k<=fim;k++)
+        v[k] = aux[k-ini];
+}
+void mergesort(int *v,int i,int f){
+    int m;
+    if(i<f){
+        m = (i+f)/2;
+        mergesort(v,i,m);
+        mergesort(v,m+1,f);
+        merge(v,i,m,f);
+    }
+}
+int main()
+{
+    int n,x,i,vet[max];
+    int classificados;
+    scanf("%d",&n);
+    scanf("%d",&classificados);
+    for(i=0;i<n;i++)
+        scanf("%d",&vet[i]);
+        
+    mergesort(vet,0,n-1);
+    x = classificados-1;
+    for(i=classificados-1;vet[i]==vet[i+1] && i<n-1;i++)
+        x = i+1;
+    
+    printf("%d",x+1);
+    return 0;
+}
